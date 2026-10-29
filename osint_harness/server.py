@@ -216,8 +216,13 @@ class Handler(BaseHTTPRequestHandler):
             self.json_body()
             cfg = backend.settings(store.root)
             manifest, reasons = policy.manifest(cid, case['form'], case['files'], cfg['runtime_hash'])
+            catalog = json.loads((HERE/'catalog.json').read_text())
+            modes = {r['mode'] for r in manifest['tool_recipes']}
+            references = [e for e in catalog['entries'] if e['adapter'] in modes or
+                          (e['adapter'] is None and case['form']['profile'] in e['profiles'])]
             return self.send(200, dict(plan=reasons, scope=manifest['allowed_hosts'], urls=manifest['seed_urls'],
                                       mode=manifest['workflow_mode'], model_rounds=0 if manifest['workflow_mode']=='tools_only' else 3,
+                                      references=references, catalog_revision=catalog['revision'],
                                       limits=['Exact host scope; redirects cannot expand it.', 'Only qualified fixed recipes execute.', 'Sources and reports are untrusted; findings require human review.']))
         if action in ('start','resume'):
             self.json_body()
