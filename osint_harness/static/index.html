@@ -1,0 +1,61 @@
+<!doctype html>
+<html lang="en">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>OSINT Harness · Case desk</title><link rel="stylesheet" href="/style.css"><script src="/app.js" defer></script></head>
+<body>
+<aside class="sidebar">
+  <a class="brand" href="/" aria-label="OSINT Harness home"><span class="mark">OH</span><span>OSINT<br><b>HARNESS</b></span></a>
+  <p class="eyebrow">LOCAL CASE DESK</p>
+  <button class="nav active" id="nav-cases">Cases <span>↗</span></button>
+  <button class="nav" id="nav-library">Tool library <span>↗</span></button>
+  <button class="nav" id="nav-settings">Installation <span>↗</span></button>
+  <div class="sidebar-bottom"><span class="dot"></span> Local interface<br><small>Collection stays behind Whonix.<br>Every finding stays reviewable.</small></div>
+</aside>
+<main>
+  <header><span id="breadcrumb">Workspace / Cases</span><span class="pill" id="backend-badge">Checking backend</span></header>
+  <div id="notice" role="alert" hidden></div>
+  <section id="cases-screen">
+    <div class="page-heading"><div><p class="eyebrow">YOUR RESEARCH, WITH BOUNDARIES</p><h1>Case desk</h1><p class="muted">Set the scope. Let qualified tools do the collection and extraction.</p></div><button class="primary" id="new-case">＋ New case</button></div>
+    <div class="overview"><div><span class="eyebrow">COLLECTION</span><strong>Whonix only</strong><p>Exact hosts and bounded requests</p></div><div><span class="eyebrow">EXECUTION</span><strong>Tools first</strong><p>Fixed recipes, isolated execution</p></div><div><span class="eyebrow">FINDINGS</span><strong>Evidence + challenge</strong><p>Detractor review before adjudication</p></div></div>
+    <div class="section-heading"><h2>Your cases</h2><span class="muted" id="case-count"></span></div>
+    <div id="case-list" class="case-list"></div>
+  </section>
+  <section id="form-screen" hidden>
+    <div class="page-heading"><div><p class="eyebrow">01 / DEFINE THE INVESTIGATION</p><h1 id="form-title">New case</h1><p class="muted">Scope is frozen when a run starts. The current model stays selected.</p></div><button class="secondary back-cases">Back to cases</button></div>
+    <form id="case-form">
+      <div class="form-grid"><div class="panel">
+        <h2>What are you investigating?</h2>
+        <label>Case title<input name="title" maxlength="160" required placeholder="A short, descriptive title"></label>
+        <label>Objective<textarea name="question" minlength="10" maxlength="12000" rows="4" required placeholder="What should the evidence establish? Include competing explanations and what would disprove them."></textarea></label>
+        <div class="two"><label>Job profile<select name="profile"><option value="mixed">Mixed research</option><option value="documents">Documents</option><option value="websites">Websites</option><option value="accounts">Accounts / usernames</option><option value="domains">Domains / organizations</option></select></label><label>Review depth<select name="workflow_mode"><option value="tool_first">Tools + model + detractor</option><option value="tools_only">Tools only · no model conclusions</option></select></label></div>
+        <p class="hint">The planner selects fixed recipes. Model review uses analysis, a detractor round and adjudication. Tools-only produces unreviewed observations.</p>
+      </div><div class="panel">
+        <h2>Where may it look?</h2>
+        <label>Allowed hosts <span class="muted">one exact hostname per line</span><textarea name="hosts" rows="3" required placeholder="example.org"></textarea></label>
+        <label>Starting URLs <span class="muted">one HTTPS URL per line</span><textarea name="urls" rows="3" required placeholder="https://example.org/"></textarea></label>
+        <label>Maximum pages<input name="max_urls" type="number" min="1" max="40" value="12" required></label>
+        <p class="hint">1–20 starting URLs are required by this backend, including document cases. No wildcards, IP addresses, credentials or automatic scope expansion.</p>
+      </div></div>
+      <details class="panel advanced"><summary>Specialist parameters <span class="muted">optional</span></summary><div class="form-grid">
+        <div><label>Extraction domain<input name="domain" placeholder="An allowed host, such as example.org"></label><p class="hint">Enables scoped contact extraction and offline domain candidates for domain/mixed jobs.</p><label>Browser click selectors <span class="muted">one per line, maximum 8</span><textarea name="clicks" rows="3" placeholder="#details"></textarea></label><p class="hint">Browser actions replay captured content. Live web resources remain blocked.</p></div>
+        <div><label>Username<input name="username" maxlength="80" placeholder="Optional exact username"></label><label>Presence markers<textarea name="positive_markers" rows="2" placeholder="At least one marker must contain the username"></textarea></label><label>Absence markers<textarea name="absence_markers" rows="2" placeholder="For example, an observed profile-not-found message"></textarea></label></div>
+      </div></details>
+      <div class="form-footer"><span class="muted">Add files and inspect the tool plan after saving.</span><button class="primary" type="submit">Save scope & continue →</button></div>
+    </form>
+  </section>
+  <section id="detail-screen" hidden>
+    <div class="page-heading"><div><p class="eyebrow" id="detail-id"></p><h1 id="detail-title"></h1><p class="muted" id="detail-objective"></p></div><button class="secondary back-cases">Back to cases</button></div>
+    <div class="run-bar"><span class="pill" id="run-state"></span><span id="run-message"></span><div class="actions"><button class="secondary" id="edit-case">Edit scope</button><button class="secondary" id="preview-case">Review tool plan</button><button class="primary" id="start-case">Start investigation</button><button class="secondary" id="resume-case" hidden>Resume case</button><button class="danger" id="stop-case" hidden>Stop & preserve</button></div></div>
+    <div id="stale-warning" class="warning" hidden>Worker updates are stale. Remote execution and cleanup are unconfirmed. Do not start another case until the private worker state is checked.</div>
+    <div class="detail-grid"><div>
+      <div class="panel"><h2>Scope & sources</h2><div id="scope-summary"></div><div id="files"></div>
+        <form id="upload-form"><label>Add files <span class="muted">PDF, HTML, TXT, JSON · 20 MB each</span><input id="upload-files" type="file" accept=".pdf,.html,.htm,.txt,.json" multiple></label><label>Source URL <span class="muted">optional, for captured HTML</span><input id="source-url" type="url" placeholder="https://approved-host.example/page"></label><button type="submit" class="secondary">Add to case</button><p class="hint">Uploaded pages are operator-supplied evidence, not a verified HTTP capture.</p></form>
+      </div>
+      <div class="panel"><h2>Tool plan</h2><p class="hint">Routing uses the job profile and supplied formats. Catalog references cannot execute code or change scope.</p><div id="plan"><p class="muted">Review the plan before starting.</p></div></div>
+      <details class="panel"><summary>Execution details</summary><pre id="status-text"></pre><button id="load-log" class="secondary">Show private log tail</button><pre id="log-text"></pre></details>
+    </div><div class="panel report-panel"><div class="section-heading"><h2>Working report</h2><span class="live-indicator">● Updates every 4s</span></div><p class="hint">Scripts, external resources and navigation are removed. Findings require human review.</p><iframe id="report-frame" title="Sanitized working report" sandbox="" referrerpolicy="no-referrer"></iframe></div></div>
+  </section>
+  <section id="library-screen" hidden><div class="page-heading"><div><p class="eyebrow">02 / FIND THE RIGHT METHOD</p><h1>Tool library</h1><p class="muted">Curated references inform routing. Only a pinned, qualified backend can execute adapters.</p></div></div><div class="panel"><p>Discovery source: <a href="https://github.com/jivoi/awesome-osint" target="_blank" rel="noreferrer noopener">Awesome OSINT</a>. Opening a reference uses your normal browser, outside investigation collection.</p><p class="hint">The links below describe upstream projects. A fixed local adapter is not the entire upstream tool, and catalog inclusion is not a recommendation to run it.</p></div><div id="library" class="library-grid"></div></section>
+  <section id="settings-screen" hidden><div class="page-heading"><div><p class="eyebrow">PRIVATE TO THIS INSTALLATION</p><h1>Installation</h1><p class="muted">Infrastructure settings and case data stay outside the source repository.</p></div></div><div class="panel"><h2>Current connection</h2><pre id="installation-info"></pre><p id="privacy-note" class="warning"></p></div><details class="panel"><summary>Attach a qualified backend</summary><p class="hint">Only attach a backend you have reviewed and qualified. Its SOURCE-MANIFEST must include the UI adapter and tool-first extension. This pins its files; it does not prove its network isolation.</p><form id="settings-form"><label>Operator directory<input name="operator_dir" required></label><label>Qualified tool runtime SHA-256<input name="runtime_hash" pattern="[0-9a-f]{64}" required></label><button class="primary">Verify & attach backend</button></form></details></section>
+  <footer>OSINT Harness <span>Local evidence • explicit scope • human judgment</span><button id="close-ui" class="secondary">Close local UI</button></footer>
+</main>
+</body></html>

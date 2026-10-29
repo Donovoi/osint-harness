@@ -1,0 +1,18 @@
+{
+  "source": "https://github.com/jivoi/awesome-osint",
+  "revision": "1f7454716b5f2d00c400a6e17ae10a64b629112b",
+  "reviewed": "2026-10-30",
+  "policy": "A discovery catalog is not a security qualification. Entries never install code, receive case data or expand scope.",
+  "entries": [
+    {"name":"PDF text extraction", "profiles":["documents","mixed"], "adapter":"pdf-text", "use":"Extract native text before asking a model to read a document.", "url":"https://pymupdf.readthedocs.io/"},
+    {"name":"PDF OCR", "profiles":["documents","mixed"], "adapter":"pdf-ocr", "use":"Independent OCR pass for scans and extraction gaps; OCR can misread characters.", "url":"https://github.com/tesseract-ocr/tesseract"},
+    {"name":"Offline browser replay", "profiles":["websites","accounts","mixed"], "adapter":"browser", "use":"Inspect captured pages with an isolated browser. External resources and live browsing are blocked.", "url":"https://playwright.dev/"},
+    {"name":"Capture fingerprinting", "profiles":["websites","domains","mixed"], "adapter":"fingerprint", "use":"Find technology hints in captured responses. Hints do not prove a deployed product.", "url":"https://github.com/urbanadventurer/WhatWeb"},
+    {"name":"Scoped contact extraction", "profiles":["domains","mixed"], "adapter":"harvest", "use":"Extract domain-bound contacts from approved captures, without search-engine requests.", "url":"https://github.com/laramies/theHarvester"},
+    {"name":"Domain candidates", "profiles":["domains","mixed"], "adapter":"permutations", "use":"Generate spelling candidates offline. No DNS, registration or availability checks.", "url":"https://github.com/elceef/dnstwist"},
+    {"name":"Username marker checks", "profiles":["accounts","mixed"], "adapter":"username", "use":"Check operator-specified presence and absence markers. A matching name never establishes identity.", "url":"https://github.com/sherlock-project/sherlock"},
+    {"name":"Maigret", "profiles":["accounts"], "adapter":null, "use":"Reference for username research. Broad live enumeration is not enabled.", "url":"https://github.com/soxoj/maigret"},
+    {"name":"SpiderFoot", "profiles":["domains"], "adapter":null, "use":"Reference for modular research. Modules, credentials and network effects require separate qualification.", "url":"https://github.com/smicallef/spiderfoot"},
+    {"name":"ExifTool", "profiles":["documents"], "adapter":null, "use":"Reference for metadata analysis. No executable adapter is included in this release.", "url":"https://exiftool.org/"}
+  ]
+}

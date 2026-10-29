@@ -1,0 +1,19 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "osint-harness"
+version = "0.1.0"
+description = "Local case desk for a qualified, isolated OSINT backend"
+requires-python = ">=3.11"
+dependencies = []
+
+[project.scripts]
+osint-harness = "osint_harness.server:main"
+
+[tool.setuptools.package-data]
+osint_harness = ["static/*", "catalog.json"]
+
+[tool.setuptools.packages.find]
+include = ["osint_harness*"]
