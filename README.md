@@ -55,4 +55,4 @@ Do not publish your app-data directory, operator directory, real case reports, p
 python -m unittest discover -s tests -v
 ```
 
-The test suite covers routing, URL scope, integrity pins, concurrency, session protection, uploads and report sanitization. These tests do not qualify a new backend or Tor installation. [Backend qualification](docs/backend-contract.md#qualification) must include live negative network tests, receipt validation, stop/resume and cleanup.
+The test suite covers routing, URL scope, integrity pins, concurrency, session protection, uploads, report sanitization and the backend cleanup/provenance helpers. These tests do not qualify a new backend or Tor installation. [Backend qualification](docs/backend-contract.md#qualification) must include live negative network tests, receipt validation, stop/resume and cleanup.

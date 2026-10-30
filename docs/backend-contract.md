@@ -28,6 +28,10 @@ Reports are atomically mirrored under the supplied output directory:
 
 The terminal status is `supervisor.state = report_ready_unreviewed`. A successful UI state requires that status, a zero launcher exit and the cleanup receipt. A report by itself is never proof of successful execution or cleanup. Interrupted or uncertain runs show **needs attention** and preserve their data.
 
+Record resource ownership before starting resources. The launcher must stop an isolated model container that it started, and preserve a model that was already running. `backend_extensions/model_lifecycle.py` provides this cleanup boundary: it attempts model cleanup even if collection/vault cleanup fails, then reads back the container state. Failed or empty inspections must prevent a success receipt. Add the helper to the pinned operator source closure when integrating it. A completed-case resume that starts no model must leave that model untouched.
+
+Wrap creation, collection and broker import of the two temporary relay files in `backend_extensions/relay_cleanup.py`'s `temporary_relay` context manager. A collection or import failure must still remove both transfer files; a failed removal must surface as an error. Retain durable case inputs and reports under the case storage policy.
+
 ## Tool-first graph extension
 
 Install `backend_extensions/tool_first.py` in the backend source closure and requalify the resulting release. In its graph:
@@ -40,6 +44,12 @@ Install `backend_extensions/tool_first.py` in the backend source closure and req
 6. Resume each case against its original frozen graph release. A completed case must not repeat tool/model calls.
 
 No catalog contents, model output or uploaded file may supply executable arguments. The model may request approved recipe IDs or already observed in-scope URLs; the host broker decides whether the request is allowed.
+
+## Uploaded content and capture provenance
+
+An uploaded HTML file with an operator-supplied URL has HTTP status `0` (unverified). Its bytes remain readable evidence. After validating the declared source and its hash, use `backend_extensions/source_content.py` to distinguish that local upload from a failed or partial network capture. Preserve the original status and provenance in model context and derived observations. Never substitute HTTP 200 to make an uploaded file pass a capture check.
+
+Contact and technology parsers may report strings or hints in a readable upload. Account tools must keep live account existence inconclusive for an HTTP-unverified upload, even when account markers are present. Login walls and challenges remain inconclusive, including HTTP 200 responses. The helper recognizes common access-wall phrases; unknown pages still require source review. No marker or native tool verdict establishes a person's identity or control.
 
 ## Qualification
 
