@@ -12,6 +12,7 @@ The UI uses Python's standard library and local HTML/CSS/JavaScript. It has no c
 - **Tools + model + detractor:** collection and extraction first, then analysis, adversarial review and adjudication. Planning does not consume a model round.
 - **Tools only:** collection and extraction, with explicitly unreviewed observations and no model-generated conclusions.
 - Checkpoints, live reports, resume and a cooperative stop that preserves owned VM state.
+- Broker-backed used/remaining URL counts in model context and reports, with original model artifacts preserved.
 
 [Awesome OSINT](https://github.com/jivoi/awesome-osint) informs the reference library. Catalog entries never become executable commands, installations, MCP services, credentials or expanded collection scope. An upstream link describes a project, not a claim that its full capabilities are enabled here.
 
@@ -41,7 +42,7 @@ This adapter currently requires at least one seed URL, even for document jobs. I
 
 ## Privacy and boundaries
 
-Case data, backend paths, infrastructure settings, source pins and report mirrors live in the operating system's private app-data directory, outside this checkout. **Local uploads and report mirrors are plaintext. Use an encrypted local disk.** The separately configured backend controls the encrypted case vault and collection network.
+Case data, backend paths, infrastructure settings, source pins and report mirrors live in the operating system's private app-data directory, outside this checkout. Local uploads and report mirrors are plaintext. Host disk encryption, including BitLocker, is optional hardening and is not a harness readiness gate. The separately configured backend controls the encrypted case vault and collection network.
 
 The server listens only on `127.0.0.1`. It checks Host and Origin, requires a local bootstrap session, uses an HttpOnly/SameSite cookie and CSRF tokens, and refuses cross-origin access. Reports are reduced to inert formatting inside a sandboxed iframe. Investigation URLs are never fetched by the UI server or displayed as clickable report links.
 
@@ -55,4 +56,4 @@ Do not publish your app-data directory, operator directory, real case reports, p
 python -m unittest discover -s tests -v
 ```
 
-The test suite covers routing, URL scope, integrity pins, concurrency, session protection, uploads and report sanitization. These tests do not qualify a new backend or Tor installation. [Backend qualification](docs/backend-contract.md#qualification) must include live negative network tests, receipt validation, stop/resume and cleanup.
+The test suite covers routing, URL scope, integrity pins, concurrency, session protection, uploads, report sanitization and the backend budget/cleanup/provenance helpers. These tests do not qualify a new backend or Tor installation. [Backend qualification](docs/backend-contract.md#qualification-checks) must include live negative network tests, receipt validation, stop/resume and cleanup.
