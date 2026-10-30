@@ -51,7 +51,15 @@ An uploaded HTML file with an operator-supplied URL has HTTP status `0` (unverif
 
 Contact and technology parsers may report strings or hints in a readable upload. Account tools must keep live account existence inconclusive for an HTTP-unverified upload, even when account markers are present. Login walls and challenges remain inconclusive, including HTTP 200 responses. The helper recognizes common access-wall phrases; unknown pages still require source review. No marker or native tool verdict establishes a person's identity or control.
 
-## Qualification
+## Request-budget reporting
+
+Use `backend_extensions/request_budget.py` with the broker-owned collection ledger for model inputs, live status and reports. Expose `maximum_unique_urls`, `used_unique_urls`, `remaining_unique_urls` and the ledger hash. Count unique requested URLs, including failed HTTP captures. Uploads, derived evidence, discovered links and tool jobs do not consume this particular budget. A failed Tor preflight does not add requests to the ledger. Missing or malformed accounting means unknown allowance, never a fresh budget.
+
+Mount only the current case's ledger read-only into the network-isolated worker. Supply recorded rejected collection proposals to subsequent model rounds. These fields are planning information; the independent broker still authorizes every request. Reports must visibly override conflicting model budget prose with deterministic counts. Preserve original model artifacts and completed-case reports; a current broker status view may prepend corrected accounting without rerunning tools or inference.
+
+Host disk encryption (including BitLocker on Windows) is optional deployment hardening. It is not a harness readiness gate and does not replace Whonix routing, scope enforcement, sandboxing or cleanup.
+
+## Qualification checks
 
 Before attaching an installation, verify:
 

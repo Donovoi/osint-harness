@@ -11,7 +11,7 @@ Report HTML loses all incoming attributes and active content. A sandboxed iframe
 ## Limits
 
 - This is a single-operator desktop application, not a multi-user web service. Do not reverse-proxy it, expose its port to a LAN or add remote access without a separate security design.
-- Local OS compromise, a hostile process under the same account, or a malicious attached backend defeats the desktop trust boundary. Protect the private app-data folder and SSH/VM credentials with OS permissions and disk encryption.
+- Local OS compromise, a hostile process under the same account, or a malicious attached backend defeats the desktop trust boundary. Protect the private app-data folder and SSH/VM credentials with OS permissions. Host disk encryption is optional protection for stored data; BitLocker is not a harness prerequisite.
 - App-data uploads and report mirrors are plaintext. The backend vault's encryption does not encrypt the Windows/Linux desktop copy. Deleting a file is not guaranteed secure erasure.
 - Tor and circuit isolation reduce some linkability. They do not prove anonymity against endpoint compromise, browser fingerprinting, account logins, identifying source content or traffic correlation. Browser replay remains offline.
 - If a worker stops reporting, execution is unconfirmed and new launches stay blocked. A human must resolve the existing process/resource state; a green old report cannot clear this condition.
